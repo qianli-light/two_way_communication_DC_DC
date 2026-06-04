@@ -1998,7 +1998,7 @@ Discarded input sections
  .debug_aranges
                 0x00000000       0x18 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
  .debug_macro   0x00000000      0x1e0 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
- .debug_macro   0x00000000      0xad8 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
+ .debug_macro   0x00000000      0xade CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
  .debug_macro   0x00000000      0x155 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
  .debug_macro   0x00000000       0x2e CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
  .debug_macro   0x00000000       0x28 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
@@ -2035,8 +2035,8 @@ Discarded input sections
  .debug_macro   0x00000000      0x358 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
  .debug_macro   0x00000000       0x10 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
  .debug_macro   0x00000000       0x1c CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
- .debug_line    0x00000000      0x766 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
- .debug_str     0x00000000    0xfad68 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
+ .debug_line    0x00000000      0x753 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
+ .debug_str     0x00000000    0xfad77 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
  .comment       0x00000000       0x44 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
  .ARM.attributes
                 0x00000000       0x34 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj
@@ -2182,7 +2182,7 @@ Discarded input sections
  .debug_rnglists
                 0x00000000       0xfb CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
  .debug_macro   0x00000000      0x2ef CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
- .debug_macro   0x00000000      0xad8 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
+ .debug_macro   0x00000000      0xade CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
  .debug_macro   0x00000000      0x155 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
  .debug_macro   0x00000000       0x2e CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
  .debug_macro   0x00000000       0x28 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
@@ -2240,8 +2240,8 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
  .debug_macro   0x00000000      0x170 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
  .debug_macro   0x00000000       0x4c CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
- .debug_line    0x00000000     0x1a6c CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
- .debug_str     0x00000000    0xfefa4 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
+ .debug_line    0x00000000     0x1a59 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
+ .debug_str     0x00000000    0xfefb3 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
  .comment       0x00000000       0x44 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
  .debug_frame   0x00000000      0x590 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED.c.obj
  .ARM.attributes
@@ -2270,7 +2270,7 @@ Discarded input sections
  .debug_aranges
                 0x00000000       0x18 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
  .debug_macro   0x00000000       0x73 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
- .debug_macro   0x00000000      0xad8 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
+ .debug_macro   0x00000000      0xade CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
  .debug_macro   0x00000000       0x22 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
  .debug_macro   0x00000000       0x8e CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
  .debug_macro   0x00000000       0x51 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
@@ -2278,7 +2278,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x6a CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
  .debug_macro   0x00000000      0x1df CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
  .debug_line    0x00000000      0x314 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
- .debug_str     0x00000000     0x3e0f CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
+ .debug_str     0x00000000     0x3e1e CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
  .comment       0x00000000       0x44 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
  .ARM.attributes
                 0x00000000       0x34 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/OLED_Data.c.obj
@@ -2317,10 +2317,12 @@ Discarded input sections
  .group         0x00000000        0xc CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
  .group         0x00000000        0xc CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
  .group         0x00000000        0xc CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
+ .group         0x00000000        0xc CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
+ .group         0x00000000        0xc CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
  .text          0x00000000        0x0 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
  .data          0x00000000        0x0 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
  .bss           0x00000000        0x0 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
- .debug_macro   0x00000000      0xad8 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
+ .debug_macro   0x00000000      0xade CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
  .debug_macro   0x00000000      0x155 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
  .debug_macro   0x00000000       0x2e CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
  .debug_macro   0x00000000       0x28 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
@@ -2355,6 +2357,8 @@ Discarded input sections
  .debug_macro   0x00000000      0x122 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
  .debug_macro   0x00000000      0x3d1 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
  .debug_macro   0x00000000      0x358 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
+ .debug_macro   0x00000000       0x10 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
+ .debug_macro   0x00000000       0x1c CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
  .group         0x00000000        0xc CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
  .group         0x00000000        0xc CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
  .group         0x00000000        0xc CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
@@ -2393,7 +2397,7 @@ Discarded input sections
  .text          0x00000000        0x0 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
  .data          0x00000000        0x0 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
  .bss           0x00000000        0x0 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
- .debug_macro   0x00000000      0xad8 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
+ .debug_macro   0x00000000      0xade CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
  .debug_macro   0x00000000      0x155 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
  .debug_macro   0x00000000       0x2e CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
  .debug_macro   0x00000000       0x28 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
@@ -2468,7 +2472,7 @@ Discarded input sections
  .bss           0x00000000        0x0 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
  .text.HAL_HRTIM_MspDeInit
                 0x00000000       0x34 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
- .debug_macro   0x00000000      0xad8 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+ .debug_macro   0x00000000      0xade CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
  .debug_macro   0x00000000      0x155 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
  .debug_macro   0x00000000       0x2e CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
  .debug_macro   0x00000000       0x28 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
@@ -2537,7 +2541,7 @@ Discarded input sections
  .debug_rnglists
                 0x00000000       0x13 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
  .debug_macro   0x00000000      0x103 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
- .debug_macro   0x00000000      0xad8 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
+ .debug_macro   0x00000000      0xade CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
  .debug_macro   0x00000000       0x10 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
  .debug_macro   0x00000000       0x22 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
  .debug_macro   0x00000000       0x6e CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
@@ -2559,7 +2563,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x6a CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
  .debug_macro   0x00000000      0x1df CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
  .debug_line    0x00000000      0x37f CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
- .debug_str     0x00000000     0x714e CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
+ .debug_str     0x00000000     0x715d CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
  .comment       0x00000000       0x44 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
  .debug_frame   0x00000000       0x34 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
  .ARM.attributes
@@ -2642,7 +2646,7 @@ Discarded input sections
  .debug_rnglists
                 0x00000000       0x79 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
  .debug_macro   0x00000000      0x265 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
- .debug_macro   0x00000000      0xad8 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
+ .debug_macro   0x00000000      0xade CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
  .debug_macro   0x00000000       0x22 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
  .debug_macro   0x00000000       0x6e CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
  .debug_macro   0x00000000       0x2a CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
@@ -2690,7 +2694,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
  .debug_macro   0x00000000       0xce CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
  .debug_line    0x00000000      0x6a3 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
- .debug_str     0x00000000     0x9455 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
+ .debug_str     0x00000000     0x9464 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
  .comment       0x00000000       0x44 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
  .debug_frame   0x00000000      0x2ac CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
  .ARM.attributes
@@ -3400,6 +3404,7 @@ LOAD CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
 LOAD CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/sysmem.c.obj
 LOAD CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/syscalls.c.obj
 LOAD CMakeFiles/two_way_communication_DC_DC.dir/startup_stm32g474xx.s.obj
+LOAD F:/CLION__Project/two_way_communication_DC_DC/Drivers/CMSIS/DSP/Lib/GCC/libarm_cortexM4lf_math.a
 LOAD F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a
 START GROUP
 LOAD F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard\libgcc.a
@@ -3904,7 +3909,7 @@ LOAD linker stubs
  .comment       0x00000043       0x44 F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
  .comment       0x00000043       0x44 F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
 
-.debug_info     0x00000000     0xa1c5
+.debug_info     0x00000000     0xa1cc
  .debug_info    0x00000000      0x58e cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32g4xx.c.obj
  .debug_info    0x0000058e     0x3f23 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_hrtim.c.obj
  .debug_info    0x000044b1      0xb95 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
@@ -3912,12 +3917,12 @@ LOAD linker stubs
  .debug_info    0x00005c3f      0x772 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
  .debug_info    0x000063b1      0x944 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
  .debug_info    0x00006cf5      0xdf9 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .debug_info    0x00007aee     0x14f9 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
- .debug_info    0x00008fe7      0x113 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
- .debug_info    0x000090fa      0xeb0 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
- .debug_info    0x00009faa       0x30 CMakeFiles/two_way_communication_DC_DC.dir/startup_stm32g474xx.s.obj
- .debug_info    0x00009fda       0xe0 F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
- .debug_info    0x0000a0ba      0x10b F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+ .debug_info    0x00007aee     0x1500 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
+ .debug_info    0x00008fee      0x113 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
+ .debug_info    0x00009101      0xeb0 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+ .debug_info    0x00009fb1       0x30 CMakeFiles/two_way_communication_DC_DC.dir/startup_stm32g474xx.s.obj
+ .debug_info    0x00009fe1       0xe0 F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+ .debug_info    0x0000a0c1      0x10b F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
 
 .debug_abbrev   0x00000000     0x1658
  .debug_abbrev  0x00000000      0x11a cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32g4xx.c.obj
@@ -3991,7 +3996,7 @@ LOAD linker stubs
  .debug_rnglists
                 0x0000080d       0x13 F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
 
-.debug_macro    0x00000000    0x2543e
+.debug_macro    0x00000000    0x25456
  .debug_macro   0x00000000      0x1b0 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32g4xx.c.obj
  .debug_macro   0x000001b0      0xad8 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32g4xx.c.obj
  .debug_macro   0x00000c88       0x2e cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32g4xx.c.obj
@@ -4034,11 +4039,11 @@ LOAD linker stubs
  .debug_macro   0x000249c5      0x1b7 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
  .debug_macro   0x00024b7c      0x1da cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
  .debug_macro   0x00024d56      0x1b0 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .debug_macro   0x00024f06      0x1ba CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
- .debug_macro   0x000250c0      0x1c4 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
- .debug_macro   0x00025284      0x1ba CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+ .debug_macro   0x00024f06      0x1d2 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
+ .debug_macro   0x000250d8      0x1c4 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
+ .debug_macro   0x0002529c      0x1ba CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
 
-.debug_line     0x00000000     0xa63b
+.debug_line     0x00000000     0xa61b
  .debug_line    0x00000000      0x791 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32g4xx.c.obj
  .debug_line    0x00000791     0x42d6 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_hrtim.c.obj
  .debug_line    0x00004a67      0xb5d cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
@@ -4046,28 +4051,28 @@ LOAD linker stubs
  .debug_line    0x000065a4      0xb49 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
  .debug_line    0x000070ed      0xcbc cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
  .debug_line    0x00007da9      0xcc2 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .debug_line    0x00008a6b      0x907 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
- .debug_line    0x00009372      0x7d3 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
- .debug_line    0x00009b45      0x78d CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
- .debug_line    0x0000a2d2       0x7b CMakeFiles/two_way_communication_DC_DC.dir/startup_stm32g474xx.s.obj
- .debug_line    0x0000a34d      0x17e F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
- .debug_line    0x0000a4cb      0x170 F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+ .debug_line    0x00008a6b      0x90d CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
+ .debug_line    0x00009378      0x7c0 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
+ .debug_line    0x00009b38      0x77a CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+ .debug_line    0x0000a2b2       0x7b CMakeFiles/two_way_communication_DC_DC.dir/startup_stm32g474xx.s.obj
+ .debug_line    0x0000a32d      0x17e F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+ .debug_line    0x0000a4ab      0x170 F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
 
-.debug_str      0x00000000    0xff12a
- .debug_str     0x00000000    0xff12a cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32g4xx.c.obj
+.debug_str      0x00000000    0xff19a
+ .debug_str     0x00000000    0xff19a cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32g4xx.c.obj
                               0xfaf29 (size before relaxing)
- .debug_str     0x000ff12a    0xfd323 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_hrtim.c.obj
- .debug_str     0x000ff12a    0xfbc3b cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
- .debug_str     0x000ff12a    0xfb648 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
- .debug_str     0x000ff12a    0xfb0b4 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
- .debug_str     0x000ff12a    0xfb417 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
- .debug_str     0x000ff12a    0xfb8f7 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .debug_str     0x000ff12a    0xfbbdb CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
- .debug_str     0x000ff12a    0xfada9 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
- .debug_str     0x000ff12a    0xfb670 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
- .debug_str     0x000ff12a       0x9a CMakeFiles/two_way_communication_DC_DC.dir/startup_stm32g474xx.s.obj
- .debug_str     0x000ff12a      0x211 F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
- .debug_str     0x000ff12a      0x272 F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+ .debug_str     0x000ff19a    0xfd323 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_hrtim.c.obj
+ .debug_str     0x000ff19a    0xfbc3b cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+ .debug_str     0x000ff19a    0xfb648 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+ .debug_str     0x000ff19a    0xfb0b4 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+ .debug_str     0x000ff19a    0xfb417 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
+ .debug_str     0x000ff19a    0xfb8f7 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ .debug_str     0x000ff19a    0xfbc4b CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj
+ .debug_str     0x000ff19a    0xfadb8 CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj
+ .debug_str     0x000ff19a    0xfb67f CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+ .debug_str     0x000ff19a       0x9a CMakeFiles/two_way_communication_DC_DC.dir/startup_stm32g474xx.s.obj
+ .debug_str     0x000ff19a      0x211 F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+ .debug_str     0x000ff19a      0x272 F:/STM32CubeCLT/STM32CubeCLT_1.18.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
 
 .debug_frame    0x00000000     0x2bc0
  .debug_frame   0x00000000       0x58 cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Core/Src/system_stm32g4xx.c.obj
