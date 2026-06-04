@@ -1,0 +1,6 @@
+F:/CLION__Project/two_way_communication_DC_DC/build/Debug/CMakeFiles/two_way_communication_DC_DC.dir
+F:/CLION__Project/two_way_communication_DC_DC/build/Debug/CMakeFiles/edit_cache.dir
+F:/CLION__Project/two_way_communication_DC_DC/build/Debug/CMakeFiles/rebuild_cache.dir
+F:/CLION__Project/two_way_communication_DC_DC/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir
+F:/CLION__Project/two_way_communication_DC_DC/build/Debug/cmake/stm32cubemx/CMakeFiles/edit_cache.dir
+F:/CLION__Project/two_way_communication_DC_DC/build/Debug/cmake/stm32cubemx/CMakeFiles/rebuild_cache.dir
