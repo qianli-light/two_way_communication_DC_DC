@@ -9,7 +9,9 @@
 #include "OLED_Data.h"
 #include "stm32g4xx_hal.h"
 
+void BUCK_CC_interface(void) {
 
+}
 
 
 

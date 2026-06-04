@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "arm_math.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -49,8 +49,6 @@ extern "C" {
 
 /* USER CODE END EM */
 
-void HAL_HRTIM_MspPostInit(HRTIM_HandleTypeDef *hhrtim);
-
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -59,9 +57,16 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define OLED_SDA_Pin GPIO_PIN_5
+#define OLED_SDA_GPIO_Port GPIOB
+#define OLED_SCL_Pin GPIO_PIN_6
+#define OLED_SCL_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-
+void BUCK_CC_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inner);
+void BUCK_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inner);
+void BOOST_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inner);
+void software_start(void);
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

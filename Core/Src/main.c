@@ -18,11 +18,15 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "OLED.h"
-#include "arm_math.h"
+#include "adc.h"
+#include "dma.h"
+#include "hrtim.h"
+#include "gpio.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "arm_math.h"
+#include "OLED.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,16 +45,48 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-HRTIM_HandleTypeDef hhrtim1;
 
 /* USER CODE BEGIN PV */
+#define inner_upper_limit                           60000.0f
+#define inner_lower_limit                           0.0f
+#define BUCK_CC_upper_limit                         24.0f
+#define BUCK_CC_lower_limit                         12.8f
+#define BUCK_CV_upper_limit                         2.1f
+#define BUCK_CV_lower_limit                         0.0f
+#define BOOST_CV_upper_limit                        1.2f
+#define BOOST_CV_lower_limit                        (-1.0f)
+#define software_step_size                          600.0f
+#define software_start_digital_setpoint             30000.0f
 
+enum {
+  BOOST_CV=0,
+  BUCK_CC=1,
+  BUCK_CV=2,
+}control_mode=2;
+
+float32_t phy_setpoint=0.0f;
+float32_t calc_setpoint=0;
+float32_t calc_measurement[4]={0.0f,0.0f,0.0f,0.0f};
+float32_t pid_memory[3];
+float32_t debug_value[2]={0.0f,0.0f};
+
+HRTIM_CompareCfgTypeDef ACMP1_T={0};
+
+uint16_t ADC_value[64];//4个通道，16个数据取平均滤波
+const uint8_t buff_size=64;
+
+float32_t outer_upper_limit=BUCK_CV_upper_limit;
+float32_t outer_lower_limit=BUCK_CV_lower_limit;
+
+const float32_t conv_gain=1.0;
+const float32_t phy_calc_conv=conv_gain/(float32_t)buff_size;
+const float32_t Ts=5e-5f;
+
+arm_pid_instance_f32 pid_outer,pid_inner;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
-static void MX_HRTIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -68,7 +104,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+  BUCK_CV_init(&pid_outer,&pid_inner);
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -77,7 +113,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  OLED_Init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -89,9 +125,18 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_HRTIM1_Init();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
+  HAL_ADCEx_Calibration_Start(&hadc1,ADC_SINGLE_ENDED);
+  HAL_ADC_Start_DMA(&hadc1,(uint32_t*)ADC_value,sizeof(ADC_value)/sizeof(uint16_t));
 
+  HAL_HRTIM_WaveformCountStart(&hhrtim1, HRTIM_TIMERID_TIMER_A);//开启定时器
+
+  software_start();//软件软启动
+
+  __HAL_HRTIM_TIMER_ENABLE_IT(&hhrtim1,HRTIM_TIMERINDEX_TIMER_A,HRTIM_TIM_IT_UPD);//开启更新中断
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -151,158 +196,199 @@ void SystemClock_Config(void)
   }
 }
 
-/**
-  * @brief HRTIM1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_HRTIM1_Init(void)
-{
-
-  /* USER CODE BEGIN HRTIM1_Init 0 */
-
-  /* USER CODE END HRTIM1_Init 0 */
-
-  HRTIM_TimeBaseCfgTypeDef pTimeBaseCfg = {0};
-  HRTIM_TimerCtlTypeDef pTimerCtl = {0};
-  HRTIM_TimerCfgTypeDef pTimerCfg = {0};
-  HRTIM_CompareCfgTypeDef pCompareCfg = {0};
-  HRTIM_DeadTimeCfgTypeDef pDeadTimeCfg = {0};
-  HRTIM_OutputCfgTypeDef pOutputCfg = {0};
-
-  /* USER CODE BEGIN HRTIM1_Init 1 */
-
-  /* USER CODE END HRTIM1_Init 1 */
-  hhrtim1.Instance = HRTIM1;
-  hhrtim1.Init.HRTIMInterruptResquests = HRTIM_IT_NONE;
-  hhrtim1.Init.SyncOptions = HRTIM_SYNCOPTION_NONE;
-  if (HAL_HRTIM_Init(&hhrtim1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_HRTIM_DLLCalibrationStart(&hhrtim1, HRTIM_CALIBRATIONRATE_3) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_HRTIM_PollForDLLCalibration(&hhrtim1, 10) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pTimeBaseCfg.Period = 60000;
-  pTimeBaseCfg.RepetitionCounter = 0x00;
-  pTimeBaseCfg.PrescalerRatio = HRTIM_PRESCALERRATIO_MUL8;
-  pTimeBaseCfg.Mode = HRTIM_MODE_CONTINUOUS;
-  if (HAL_HRTIM_TimeBaseConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, &pTimeBaseCfg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pTimerCtl.UpDownMode = HRTIM_TIMERUPDOWNMODE_UP;
-  pTimerCtl.TrigHalf = HRTIM_TIMERTRIGHALF_DISABLED;
-  pTimerCtl.GreaterCMP1 = HRTIM_TIMERGTCMP1_EQUAL;
-  pTimerCtl.DualChannelDacEnable = HRTIM_TIMER_DCDE_DISABLED;
-  if (HAL_HRTIM_WaveformTimerControl(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, &pTimerCtl) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pTimerCfg.InterruptRequests = HRTIM_TIM_IT_NONE;
-  pTimerCfg.DMARequests = HRTIM_TIM_DMA_NONE;
-  pTimerCfg.DMASrcAddress = 0x0000;
-  pTimerCfg.DMADstAddress = 0x0000;
-  pTimerCfg.DMASize = 0x1;
-  pTimerCfg.HalfModeEnable = HRTIM_HALFMODE_DISABLED;
-  pTimerCfg.InterleavedMode = HRTIM_INTERLEAVED_MODE_DISABLED;
-  pTimerCfg.StartOnSync = HRTIM_SYNCSTART_DISABLED;
-  pTimerCfg.ResetOnSync = HRTIM_SYNCRESET_DISABLED;
-  pTimerCfg.DACSynchro = HRTIM_DACSYNC_NONE;
-  pTimerCfg.PreloadEnable = HRTIM_PRELOAD_ENABLED;
-  pTimerCfg.UpdateGating = HRTIM_UPDATEGATING_INDEPENDENT;
-  pTimerCfg.BurstMode = HRTIM_TIMERBURSTMODE_MAINTAINCLOCK;
-  pTimerCfg.RepetitionUpdate = HRTIM_UPDATEONREPETITION_ENABLED;
-  pTimerCfg.PushPull = HRTIM_TIMPUSHPULLMODE_ENABLED;
-  pTimerCfg.FaultEnable = HRTIM_TIMFAULTENABLE_NONE;
-  pTimerCfg.FaultLock = HRTIM_TIMFAULTLOCK_READWRITE;
-  pTimerCfg.DeadTimeInsertion = HRTIM_TIMDEADTIMEINSERTION_ENABLED;
-  pTimerCfg.DelayedProtectionMode = HRTIM_TIMER_A_B_C_DELAYEDPROTECTION_DISABLED;
-  pTimerCfg.UpdateTrigger = HRTIM_TIMUPDATETRIGGER_NONE;
-  pTimerCfg.ResetTrigger = HRTIM_TIMRESETTRIGGER_NONE;
-  pTimerCfg.ResetUpdate = HRTIM_TIMUPDATEONRESET_DISABLED;
-  pTimerCfg.ReSyncUpdate = HRTIM_TIMERESYNC_UPDATE_UNCONDITIONAL;
-  if (HAL_HRTIM_WaveformTimerConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, &pTimerCfg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pCompareCfg.CompareValue = 0;
-  if (HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, HRTIM_COMPAREUNIT_1, &pCompareCfg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pCompareCfg.CompareValue = 0xFFF7;
-  pCompareCfg.AutoDelayedMode = HRTIM_AUTODELAYEDMODE_REGULAR;
-  pCompareCfg.AutoDelayedTimeout = 0x0000;
-
-  if (HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, HRTIM_COMPAREUNIT_2, &pCompareCfg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pDeadTimeCfg.Prescaler = HRTIM_TIMDEADTIME_PRESCALERRATIO_MUL8;
-  pDeadTimeCfg.RisingValue = 167;
-  pDeadTimeCfg.RisingSign = HRTIM_TIMDEADTIME_RISINGSIGN_POSITIVE;
-  pDeadTimeCfg.RisingLock = HRTIM_TIMDEADTIME_RISINGLOCK_READONLY;
-  pDeadTimeCfg.RisingSignLock = HRTIM_TIMDEADTIME_RISINGSIGNLOCK_READONLY;
-  pDeadTimeCfg.FallingValue = 167;
-  pDeadTimeCfg.FallingSign = HRTIM_TIMDEADTIME_FALLINGSIGN_POSITIVE;
-  pDeadTimeCfg.FallingLock = HRTIM_TIMDEADTIME_FALLINGLOCK_READONLY;
-  pDeadTimeCfg.FallingSignLock = HRTIM_TIMDEADTIME_FALLINGSIGNLOCK_READONLY;
-  if (HAL_HRTIM_DeadTimeConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, &pDeadTimeCfg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pOutputCfg.Polarity = HRTIM_OUTPUTPOLARITY_HIGH;
-  pOutputCfg.SetSource = HRTIM_OUTPUTSET_TIMPER;
-  pOutputCfg.ResetSource = HRTIM_OUTPUTRESET_TIMCMP1;
-  pOutputCfg.IdleMode = HRTIM_OUTPUTIDLEMODE_NONE;
-  pOutputCfg.IdleLevel = HRTIM_OUTPUTIDLELEVEL_INACTIVE;
-  pOutputCfg.FaultLevel = HRTIM_OUTPUTFAULTLEVEL_NONE;
-  pOutputCfg.ChopperModeEnable = HRTIM_OUTPUTCHOPPERMODE_DISABLED;
-  pOutputCfg.BurstModeEntryDelayed = HRTIM_OUTPUTBURSTMODEENTRY_REGULAR;
-  if (HAL_HRTIM_WaveformOutputConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, HRTIM_OUTPUT_TA1, &pOutputCfg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  pOutputCfg.Polarity = HRTIM_OUTPUTPOLARITY_LOW;
-  if (HAL_HRTIM_WaveformOutputConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, HRTIM_OUTPUT_TA2, &pOutputCfg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN HRTIM1_Init 2 */
-
-  /* USER CODE END HRTIM1_Init 2 */
-  HAL_HRTIM_MspPostInit(&hhrtim1);
-
-}
-
-/**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_GPIO_Init(void)
-{
-  /* USER CODE BEGIN MX_GPIO_Init_1 */
-
-  /* USER CODE END MX_GPIO_Init_1 */
-
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOF_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-
-  /* USER CODE BEGIN MX_GPIO_Init_2 */
-
-  /* USER CODE END MX_GPIO_Init_2 */
-}
-
 /* USER CODE BEGIN 4 */
+void BUCK_CC_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inner){
+  control_mode=BUCK_CC;
+  phy_setpoint=0.0f;
+  calc_setpoint=0;
 
+  pid_outer->Kp=0.0f;
+  pid_outer->Ki=0.0f;
+  pid_outer->Kd=0.0f;
+  pid_outer->state[0]=0.0f;
+  pid_outer->state[1]=0.0f;
+  pid_outer->state[2]=0.0f;
+  pid_outer->A0=pid_outer->Kp+pid_outer->Ki*Ts+pid_outer->Kd/Ts;
+  pid_outer->A1=-pid_outer->Kp-2.0f*pid_outer->Kd/Ts;
+  pid_outer->A2=pid_outer->Kd/Ts;
+
+  pid_inner->Kp=0.0f;
+  pid_inner->Ki=0.0f;
+  pid_inner->Kd=0.0f;
+  pid_inner->state[0]=0.0f;
+  pid_inner->state[1]=0.0f;
+  pid_inner->state[2]=0.0f;
+  pid_inner->A0=pid_inner->Kp+pid_inner->Ki*Ts+pid_inner->Kd/Ts;
+  pid_inner->A1=-pid_inner->Kp-2.0f*pid_inner->Kd/Ts;
+  pid_inner->A2=pid_inner->Kd/Ts;
+
+  outer_upper_limit=BUCK_CC_upper_limit;
+  outer_lower_limit=BUCK_CC_lower_limit;
+
+  arm_pid_init_f32(pid_outer,1);
+  arm_pid_init_f32(pid_inner,1);
+}
+
+void BUCK_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inner){
+  control_mode=BUCK_CV;
+  phy_setpoint=0.0f;
+  calc_setpoint=0;
+
+  pid_outer->Kp=0.0f;
+  pid_outer->Ki=0.0f;
+  pid_outer->Kd=0.0f;
+  pid_outer->state[0]=0.0f;
+  pid_outer->state[1]=0.0f;
+  pid_outer->state[2]=0.0f;
+  pid_outer->A0=pid_outer->Kp+pid_outer->Ki*Ts+pid_outer->Kd/Ts;
+  pid_outer->A1=-pid_outer->Kp-2.0f*pid_outer->Kd/Ts;
+  pid_outer->A2=pid_outer->Kd/Ts;
+
+  pid_inner->Kp=0.0f;
+  pid_inner->Ki=0.0f;
+  pid_inner->Kd=0.0f;
+  pid_inner->state[0]=0.0f;
+  pid_inner->state[1]=0.0f;
+  pid_inner->state[2]=0.0f;
+  pid_inner->A0=pid_inner->Kp+pid_inner->Ki*Ts+pid_inner->Kd/Ts;
+  pid_inner->A1=-pid_inner->Kp-2.0f*pid_inner->Kd/Ts;
+  pid_inner->A2=pid_inner->Kd/Ts;
+
+  outer_upper_limit=BUCK_CV_upper_limit;
+  outer_lower_limit=BUCK_CV_lower_limit;
+
+  arm_pid_init_f32(pid_outer,1);
+  arm_pid_init_f32(pid_inner,1);
+}
+
+void BOOST_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inner){
+  control_mode=BOOST_CV;
+  phy_setpoint=0.0f;
+  calc_setpoint=0;
+
+  pid_outer->Kp=0.0f;
+  pid_outer->Ki=0.0f;
+  pid_outer->Kd=0.0f;
+  pid_outer->state[0]=0.0f;
+  pid_outer->state[1]=0.0f;
+  pid_outer->state[2]=0.0f;
+  pid_outer->A0=pid_outer->Kp+pid_outer->Ki*Ts+pid_outer->Kd/Ts;
+  pid_outer->A1=-pid_outer->Kp-2.0f*pid_outer->Kd/Ts;
+  pid_outer->A2=pid_outer->Kd/Ts;
+
+  pid_inner->Kp=0.0f;
+  pid_inner->Ki=0.0f;
+  pid_inner->Kd=0.0f;
+  pid_inner->state[0]=0.0f;
+  pid_inner->state[1]=0.0f;
+  pid_inner->state[2]=0.0f;
+  pid_inner->A0=pid_inner->Kp+pid_inner->Ki*Ts+pid_inner->Kd/Ts;
+  pid_inner->A1=-pid_inner->Kp-2.0f*pid_inner->Kd/Ts;
+  pid_inner->A2=pid_inner->Kd/Ts;
+
+  outer_upper_limit=BOOST_CV_upper_limit;
+  outer_lower_limit=BOOST_CV_lower_limit;
+
+  arm_pid_init_f32(pid_outer,1);
+  arm_pid_init_f32(pid_inner,1);
+}
+
+void software_start(void) {
+  HAL_HRTIM_WaveformOutputStart(&hhrtim1, HRTIM_OUTPUT_TA1|HRTIM_OUTPUT_TA2);//开启通道输出
+
+  for (int i=0;i<=software_start_digital_setpoint;i+=software_step_size)
+  {
+    ACMP1_T.CompareValue=i;
+    HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, HRTIM_COMPAREUNIT_1, &ACMP1_T);
+    HAL_Delay(1);
+  }
+}
+
+uint32_t PID_Compute(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inner,const float32_t error_outer,
+  float32_t inner_measurement){
+  arm_copy_f32(pid_outer->state,pid_memory,3);
+  float32_t error_inner=0;
+  float32_t output = arm_pid_f32(pid_outer, error_outer);
+  debug_value[0]=output;
+
+  if (output > outer_upper_limit)
+  {
+    arm_copy_f32(pid_memory,pid_outer->state,3);
+    error_inner=outer_upper_limit-inner_measurement;
+  }
+  if (output < outer_lower_limit)
+  {
+    arm_copy_f32(pid_memory,pid_outer->state,3);
+    error_inner=outer_lower_limit-inner_measurement;
+  }
+  error_inner=output-inner_measurement;
+  arm_copy_f32(pid_inner->state,pid_memory,3);
+  output = arm_pid_f32(pid_inner, error_inner);
+  debug_value[1]=output;
+
+  if (output > inner_upper_limit)
+  {
+    arm_copy_f32(pid_memory,pid_inner->state,3);
+    return inner_upper_limit;
+  }
+  if (output < inner_lower_limit)
+  {
+    arm_copy_f32(pid_memory,pid_inner->state,3);
+    return inner_lower_limit;
+  }
+  return output;
+}
+
+void HAL_HRTIM_RegistersUpdateCallback(HRTIM_HandleTypeDef *hhrtim,uint32_t TimerIdx) {
+  static uint8_t count = 0;
+  static uint32_t out=0;
+  if (TimerIdx == HRTIM_TIMERINDEX_TIMER_A)
+    {
+      count++;
+      if (count%2==0)
+      {
+        if (control_mode)
+        {
+          calc_measurement[0]=ADC_value[0]+ADC_value[4]+ADC_value[8]+ADC_value[12]+ADC_value[16]
+          +ADC_value[20]+ADC_value[24]+ADC_value[28]+ADC_value[32]+ADC_value[36]+ADC_value[40]
+          +ADC_value[44]+ADC_value[48]+ADC_value[52]+ADC_value[56]+ADC_value[60];
+          calc_measurement[1]=ADC_value[1]+ADC_value[5]+ADC_value[9]+ADC_value[13]+ADC_value[17]
+          +ADC_value[21]+ADC_value[25]+ADC_value[29]+ADC_value[33]+ADC_value[37]+ADC_value[41]
+          +ADC_value[45]+ADC_value[49]+ADC_value[53]+ADC_value[57]+ADC_value[61];
+        }
+        else {
+          calc_measurement[2]=ADC_value[2]+ADC_value[6]+ADC_value[10]+ADC_value[14]+ADC_value[18]
+          +ADC_value[22]+ADC_value[26]+ADC_value[30]+ADC_value[34]+ADC_value[38]+ADC_value[42]
+          +ADC_value[46]+ADC_value[50]+ADC_value[54]+ADC_value[58]+ADC_value[62];
+          calc_measurement[3]=ADC_value[3]+ADC_value[7]+ADC_value[11]+ADC_value[15]+ADC_value[19]
+          +ADC_value[23]+ADC_value[27]+ADC_value[31]+ADC_value[35]+ADC_value[39]+ADC_value[43]
+          +ADC_value[47]+ADC_value[51]+ADC_value[55]+ADC_value[59]+ADC_value[63];
+        }
+        switch (control_mode) {
+          case BOOST_CV:
+            out=PID_Compute(&pid_outer,&pid_inner,calc_setpoint-calc_measurement[2],
+              calc_measurement[3]);
+            ACMP1_T.CompareValue=out;
+            HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, HRTIM_COMPAREUNIT_1, &ACMP1_T);
+            break;
+          case BUCK_CC:
+            out=PID_Compute(&pid_outer,&pid_inner,calc_setpoint-calc_measurement[1],
+              calc_measurement[0]);
+            ACMP1_T.CompareValue=out;
+            HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, HRTIM_COMPAREUNIT_1, &ACMP1_T);
+            break;
+          case BUCK_CV:
+            out=PID_Compute(&pid_outer,&pid_inner,calc_setpoint-calc_measurement[0],
+              calc_measurement[1]);
+            ACMP1_T.CompareValue=out;
+            HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, HRTIM_COMPAREUNIT_1, &ACMP1_T);
+            break;
+        }
+      }
+
+    }
+
+}
 /* USER CODE END 4 */
 
 /**

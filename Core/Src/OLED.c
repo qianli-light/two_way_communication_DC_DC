@@ -84,9 +84,9 @@ uint8_t OLED_DisplayBuf[8][128];
 /*********************全局变量*/
 /*********************移植需修改定义宏和初始化函数相应时钟和相应的库文件*/
 
-#define OLED_SCL_PORT									GPIOA
-#define OLED_SCL_PIN									GPIO_PIN_4
-#define OLED_SDA_PORT									GPIOA
+#define OLED_SCL_PORT									GPIOB
+#define OLED_SCL_PIN									GPIO_PIN_6
+#define OLED_SDA_PORT									GPIOB
 #define OLED_SDA_PIN									GPIO_PIN_5
 /*引脚配置*********************/
 
@@ -142,7 +142,7 @@ void OLED_GPIO_Init(void)
 	}
 	
 	/*将SCL和SDA引脚初始化为开漏模式*/
-    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
 	
 	GPIO_InitTypeDef GPIO_InitStructure;
  	GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_OD;
