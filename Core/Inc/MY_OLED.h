@@ -15,5 +15,5 @@ void BOOST_CV_interface_head(void);
 void BOOST_CV_interface_main(void);
 void DeBug_interface_head(void);
 void DeBug_interface_main(void);
-void now_EC_DeBug_interface_main(void);
+
 

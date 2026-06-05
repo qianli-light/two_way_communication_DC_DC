@@ -114,7 +114,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-  BUCK_CV_init(&pid_outer,&pid_inner);
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -142,25 +142,26 @@ int main(void)
   HAL_ADCEx_Calibration_Start(&hadc1,ADC_SINGLE_ENDED);
   HAL_ADC_Start_DMA(&hadc1,(uint32_t*)ADC_value,sizeof(ADC_value)/sizeof(uint16_t));
 
-  HAL_HRTIM_WaveformCountStart(&hhrtim1, HRTIM_TIMERID_TIMER_A);//开启定时器
-
-  software_start();//软件软启动
-
-  __HAL_HRTIM_TIMER_ENABLE_IT(&hhrtim1,HRTIM_TIMERINDEX_TIMER_A,HRTIM_TIM_IT_UPD);//开启更新中断
-
   switch (control_mode) {
     case BUCK_CC:
-      BUCK_CC_interface_head();
+      BUCK_CC_init(&pid_outer,&pid_inner);
       break;
     case BUCK_CV:
-      BUCK_CV_interface_head();
+      BUCK_CV_init(&pid_outer,&pid_inner);
       break;
     case BOOST_CV:
-      BOOST_CV_interface_head();
+      BOOST_CV_init(&pid_outer,&pid_inner);
       break;
     default:
       break;
   }
+
+  HAL_HRTIM_WaveformCountStart(&hhrtim1, HRTIM_TIMERID_TIMER_A);//开启定时器
+
+  software_start();//软件软启动
+
+  __HAL_HRTIM_TIMER_ENABLE_IT(&hhrtim1,HRTIM_TIMERINDEX_TIMER_A,HRTIM_TIM_IT_UPD);//开启更新中断,开启PID
+
   DeBug_interface_head();
   /* USER CODE END 2 */
 
@@ -188,7 +189,6 @@ int main(void)
         break;
     }
     DeBug_interface_main();
-    now_EC_DeBug_interface_main();
 
     /* USER CODE END WHILE */
 

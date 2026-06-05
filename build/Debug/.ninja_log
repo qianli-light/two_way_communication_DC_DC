@@ -52,3 +52,10 @@
 427	784	8023652769399416	two_way_communication_DC_DC.elf	81f03f6bcb0e5de7
 3	280	8023656193858278	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj	5e9a79a5518b649a
 281	534	8023656196338660	two_way_communication_DC_DC.elf	81f03f6bcb0e5de7
+4	393	8023666495068857	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj	5e9a79a5518b649a
+398	710	8023666498152706	two_way_communication_DC_DC.elf	81f03f6bcb0e5de7
+5	330	8023668351654174	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj	b3d1f513a02879f9
+17	359	8023668351958687	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj	5e9a79a5518b649a
+359	677	8023668355081232	two_way_communication_DC_DC.elf	81f03f6bcb0e5de7
+3	298	8023669027103042	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj	5e9a79a5518b649a
+299	562	8023669029684642	two_way_communication_DC_DC.elf	81f03f6bcb0e5de7

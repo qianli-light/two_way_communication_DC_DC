@@ -90,10 +90,6 @@ void DeBug_interface_main(void) {
     OLED_ShowFloatNum(24,48,pid_outer.Kd,2,2,OLED_6X8);
     OLED_ShowFloatNum(88,48,pid_inner.Kd,2,2,OLED_6X8);
 
-    OLED_Update();
-}
-void now_EC_DeBug_interface_main(void) {
-
     switch (now_EC_DeBug) {
         case _phy_setpoint:
             OLED_ShowString(54,56,"phy_setpoint",OLED_6X8);
@@ -119,5 +115,7 @@ void now_EC_DeBug_interface_main(void) {
         default:
             break;
     }
+
     OLED_Update();
 }
+
