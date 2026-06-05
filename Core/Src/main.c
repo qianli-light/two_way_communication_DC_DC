@@ -27,6 +27,7 @@
 /* USER CODE BEGIN Includes */
 #include "arm_math.h"
 #include "OLED.h"
+#include "MY_OLED.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -62,18 +63,20 @@ enum {
   BOOST_CV=0,
   BUCK_CC=1,
   BUCK_CV=2,
+  IDLE=3,
 }control_mode=2;
 
 float32_t phy_setpoint=0.0f;
 float32_t calc_setpoint=0;
 float32_t calc_measurement[4]={0.0f,0.0f,0.0f,0.0f};
+float32_t phy_V_low,phy_I_low,phy_V_high,phy_I_high;
 float32_t pid_memory[3];
 float32_t debug_value[2]={0.0f,0.0f};
 
 HRTIM_CompareCfgTypeDef ACMP1_T={0};
 
 uint16_t ADC_value[64];//4个通道，16个数据取平均滤波
-const uint8_t buff_size=64;
+const uint8_t buff_size=16;
 
 float32_t outer_upper_limit=BUCK_CV_upper_limit;
 float32_t outer_lower_limit=BUCK_CV_lower_limit;
@@ -137,12 +140,43 @@ int main(void)
   software_start();//软件软启动
 
   __HAL_HRTIM_TIMER_ENABLE_IT(&hhrtim1,HRTIM_TIMERINDEX_TIMER_A,HRTIM_TIM_IT_UPD);//开启更新中断
+
+  switch (control_mode) {
+    case BUCK_CC:
+      BUCK_CC_interface_head();
+      break;
+    case BUCK_CV:
+      BUCK_CV_interface_head();
+      break;
+    case BOOST_CV:
+      BOOST_CV_interface_head();
+      break;
+  }
+  DeBug_interface_head();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    switch (control_mode) {
+      case BUCK_CC:
+        phy_V_low=calc_measurement[2]*phy_calc_conv;
+        phy_I_low=calc_measurement[3]*phy_calc_conv;
+        BUCK_CC_interface_main();
+        break;
+      case BUCK_CV:
+        phy_V_low=calc_measurement[2]*phy_calc_conv;
+        phy_I_low=calc_measurement[3]*phy_calc_conv;
+        BUCK_CV_interface_main();
+        break;
+      case BOOST_CV:
+        phy_V_high=calc_measurement[0]*phy_calc_conv;
+        phy_I_high=calc_measurement[1]*phy_calc_conv;
+        BOOST_CV_interface_main();
+        break;
+    }
+    DeBug_interface_main();
 
     /* USER CODE END WHILE */
 
@@ -227,6 +261,8 @@ void BUCK_CC_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inne
 
   arm_pid_init_f32(pid_outer,1);
   arm_pid_init_f32(pid_inner,1);
+
+  BUCK_CC_interface_head();
 }
 
 void BUCK_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inner){
@@ -259,6 +295,8 @@ void BUCK_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inne
 
   arm_pid_init_f32(pid_outer,1);
   arm_pid_init_f32(pid_inner,1);
+
+  BUCK_CV_interface_head();
 }
 
 void BOOST_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inner){
@@ -291,6 +329,8 @@ void BOOST_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inn
 
   arm_pid_init_f32(pid_outer,1);
   arm_pid_init_f32(pid_inner,1);
+
+  BOOST_CV_interface_head();
 }
 
 void software_start(void) {

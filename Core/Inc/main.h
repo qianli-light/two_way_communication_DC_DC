@@ -67,6 +67,13 @@ void BUCK_CC_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inne
 void BUCK_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inner);
 void BOOST_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inner);
 void software_start(void);
+
+extern float32_t phy_V_low;
+extern float32_t phy_I_low;
+extern float32_t phy_V_high;
+extern float32_t phy_I_high;
+extern arm_pid_instance_f32 pid_outer;
+extern arm_pid_instance_f32 pid_inner;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

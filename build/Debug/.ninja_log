@@ -55,3 +55,12 @@
 107	614	8023000332821523	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj	8ebccb6a5d83b61a
 91	617	8023000332841551	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj	804d9e6bc578dcf5
 617	944	8023000336069532	two_way_communication_DC_DC.elf	81f03f6bcb0e5de7
+778	2297	8023466720386606	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_it.c.obj	804d9e6bc578dcf5
+714	2298	8023466720406613	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/main.c.obj	5e9a79a5518b649a
+790	2315	8023466720607306	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/stm32g4xx_hal_msp.c.obj	8ebccb6a5d83b61a
+729	2323	8023466720697292	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/gpio.c.obj	552112afea15e57b
+751	2336	8023466720839394	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/dma.c.obj	2c2ef341029e3110
+739	2341	8023466720889299	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/adc.c.obj	cd32fe01ace4d628
+765	2354	8023466721029274	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/hrtim.c.obj	f8a9ddebd8134b31
+7	2361	8023466721079277	CMakeFiles/two_way_communication_DC_DC.dir/Core/Src/MY_OLED.c.obj	b3d1f513a02879f9
+2361	3435	8023466731761905	two_way_communication_DC_DC.elf	81f03f6bcb0e5de7
