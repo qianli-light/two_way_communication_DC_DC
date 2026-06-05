@@ -57,10 +57,25 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define EC11A_Pin GPIO_PIN_13
+#define EC11A_GPIO_Port GPIOC
+#define EC11A_EXTI_IRQn EXTI15_10_IRQn
+#define EC_S_Pin GPIO_PIN_14
+#define EC_S_GPIO_Port GPIOC
+#define EC_S_EXTI_IRQn EXTI15_10_IRQn
+#define EC11B_Pin GPIO_PIN_15
+#define EC11B_GPIO_Port GPIOC
+#define EC11B_EXTI_IRQn EXTI15_10_IRQn
 #define OLED_SDA_Pin GPIO_PIN_5
 #define OLED_SDA_GPIO_Port GPIOB
 #define OLED_SCL_Pin GPIO_PIN_6
 #define OLED_SCL_GPIO_Port GPIOB
+#define EXTI7_Pin GPIO_PIN_7
+#define EXTI7_GPIO_Port GPIOB
+#define EXTI7_EXTI_IRQn EXTI9_5_IRQn
+#define EXTI9_Pin GPIO_PIN_9
+#define EXTI9_GPIO_Port GPIOB
+#define EXTI9_EXTI_IRQn EXTI9_5_IRQn
 
 /* USER CODE BEGIN Private defines */
 void BUCK_CC_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inner);
@@ -74,6 +89,18 @@ extern float32_t phy_V_high;
 extern float32_t phy_I_high;
 extern arm_pid_instance_f32 pid_outer;
 extern arm_pid_instance_f32 pid_inner;
+
+  enum EC_DeBug{
+    _phy_setpoint=0,
+    _OKp=1,
+    _OKi=2,
+    _OKd=3,
+    _IKp=4,
+    _IKi=5,
+    _IKd=6,
+  };
+
+extern enum EC_DeBug now_EC_DeBug;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

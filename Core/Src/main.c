@@ -58,13 +58,17 @@
 #define BOOST_CV_lower_limit                        (-1.0f)
 #define software_step_size                          600.0f
 #define software_start_digital_setpoint             30000.0f
+#define phy_calc_conv_voltage                       1.0/16.0f
+#define phy_calc_conv_current                       1.0/16.0f
 
 enum {
   BOOST_CV=0,
   BUCK_CC=1,
   BUCK_CV=2,
   IDLE=3,
-}control_mode=2;
+}control_mode=BUCK_CV;
+
+enum EC_DeBug now_EC_DeBug=_phy_setpoint;
 
 float32_t phy_setpoint=0.0f;
 float32_t calc_setpoint=0;
@@ -76,16 +80,19 @@ float32_t debug_value[2]={0.0f,0.0f};
 HRTIM_CompareCfgTypeDef ACMP1_T={0};
 
 uint16_t ADC_value[64];//4个通道，16个数据取平均滤波
-const uint8_t buff_size=16;
+//const uint8_t buff_size=16;
 
 float32_t outer_upper_limit=BUCK_CV_upper_limit;
 float32_t outer_lower_limit=BUCK_CV_lower_limit;
 
-const float32_t conv_gain=1.0;
-const float32_t phy_calc_conv=conv_gain/(float32_t)buff_size;
-const float32_t Ts=5e-5f;
+//const float32_t conv_gain=1.0;
+//const float32_t phy_calc_conv=conv_gain/(float32_t)buff_size;
+float32_t phy_calc_conv=phy_calc_conv_voltage;
+//const float32_t Ts=5e-5f;
+
 
 arm_pid_instance_f32 pid_outer,pid_inner;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -151,6 +158,8 @@ int main(void)
     case BOOST_CV:
       BOOST_CV_interface_head();
       break;
+    default:
+      break;
   }
   DeBug_interface_head();
   /* USER CODE END 2 */
@@ -161,22 +170,25 @@ int main(void)
   {
     switch (control_mode) {
       case BUCK_CC:
-        phy_V_low=calc_measurement[2]*phy_calc_conv;
-        phy_I_low=calc_measurement[3]*phy_calc_conv;
+        phy_V_low=calc_measurement[2]*phy_calc_conv_voltage;
+        phy_I_low=calc_measurement[3]*phy_calc_conv_current;
         BUCK_CC_interface_main();
         break;
       case BUCK_CV:
-        phy_V_low=calc_measurement[2]*phy_calc_conv;
-        phy_I_low=calc_measurement[3]*phy_calc_conv;
+        phy_V_low=calc_measurement[2]*phy_calc_conv_voltage;
+        phy_I_low=calc_measurement[3]*phy_calc_conv_current;
         BUCK_CV_interface_main();
         break;
       case BOOST_CV:
-        phy_V_high=calc_measurement[0]*phy_calc_conv;
-        phy_I_high=calc_measurement[1]*phy_calc_conv;
+        phy_V_high=calc_measurement[0]*phy_calc_conv_voltage;
+        phy_I_high=calc_measurement[1]*phy_calc_conv_current;
         BOOST_CV_interface_main();
+        break;
+      default:
         break;
     }
     DeBug_interface_main();
+    now_EC_DeBug_interface_main();
 
     /* USER CODE END WHILE */
 
@@ -235,6 +247,7 @@ void BUCK_CC_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inne
   control_mode=BUCK_CC;
   phy_setpoint=0.0f;
   calc_setpoint=0;
+  phy_calc_conv=phy_calc_conv_current;
 
   pid_outer->Kp=0.0f;
   pid_outer->Ki=0.0f;
@@ -242,9 +255,9 @@ void BUCK_CC_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inne
   pid_outer->state[0]=0.0f;
   pid_outer->state[1]=0.0f;
   pid_outer->state[2]=0.0f;
-  pid_outer->A0=pid_outer->Kp+pid_outer->Ki*Ts+pid_outer->Kd/Ts;
-  pid_outer->A1=-pid_outer->Kp-2.0f*pid_outer->Kd/Ts;
-  pid_outer->A2=pid_outer->Kd/Ts;
+  //pid_outer->A0=pid_outer->Kp+pid_outer->Ki*Ts+pid_outer->Kd/Ts;
+  //pid_outer->A1=-pid_outer->Kp-2.0f*pid_outer->Kd/Ts;
+  //pid_outer->A2=pid_outer->Kd/Ts;
 
   pid_inner->Kp=0.0f;
   pid_inner->Ki=0.0f;
@@ -252,15 +265,15 @@ void BUCK_CC_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inne
   pid_inner->state[0]=0.0f;
   pid_inner->state[1]=0.0f;
   pid_inner->state[2]=0.0f;
-  pid_inner->A0=pid_inner->Kp+pid_inner->Ki*Ts+pid_inner->Kd/Ts;
-  pid_inner->A1=-pid_inner->Kp-2.0f*pid_inner->Kd/Ts;
-  pid_inner->A2=pid_inner->Kd/Ts;
+  //pid_inner->A0=pid_inner->Kp+pid_inner->Ki*Ts+pid_inner->Kd/Ts;
+  //pid_inner->A1=-pid_inner->Kp-2.0f*pid_inner->Kd/Ts;
+  //pid_inner->A2=pid_inner->Kd/Ts;
 
   outer_upper_limit=BUCK_CC_upper_limit;
   outer_lower_limit=BUCK_CC_lower_limit;
 
-  arm_pid_init_f32(pid_outer,1);
-  arm_pid_init_f32(pid_inner,1);
+  arm_pid_init_f32(pid_outer,0);
+  arm_pid_init_f32(pid_inner,0);
 
   BUCK_CC_interface_head();
 }
@@ -269,6 +282,7 @@ void BUCK_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inne
   control_mode=BUCK_CV;
   phy_setpoint=0.0f;
   calc_setpoint=0;
+  phy_calc_conv=phy_calc_conv_voltage;
 
   pid_outer->Kp=0.0f;
   pid_outer->Ki=0.0f;
@@ -276,9 +290,9 @@ void BUCK_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inne
   pid_outer->state[0]=0.0f;
   pid_outer->state[1]=0.0f;
   pid_outer->state[2]=0.0f;
-  pid_outer->A0=pid_outer->Kp+pid_outer->Ki*Ts+pid_outer->Kd/Ts;
-  pid_outer->A1=-pid_outer->Kp-2.0f*pid_outer->Kd/Ts;
-  pid_outer->A2=pid_outer->Kd/Ts;
+  //pid_outer->A0=pid_outer->Kp+pid_outer->Ki*Ts+pid_outer->Kd/Ts;
+  //pid_outer->A1=-pid_outer->Kp-2.0f*pid_outer->Kd/Ts;
+  //pid_outer->A2=pid_outer->Kd/Ts;
 
   pid_inner->Kp=0.0f;
   pid_inner->Ki=0.0f;
@@ -286,15 +300,15 @@ void BUCK_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inne
   pid_inner->state[0]=0.0f;
   pid_inner->state[1]=0.0f;
   pid_inner->state[2]=0.0f;
-  pid_inner->A0=pid_inner->Kp+pid_inner->Ki*Ts+pid_inner->Kd/Ts;
-  pid_inner->A1=-pid_inner->Kp-2.0f*pid_inner->Kd/Ts;
-  pid_inner->A2=pid_inner->Kd/Ts;
+  //pid_inner->A0=pid_inner->Kp+pid_inner->Ki*Ts+pid_inner->Kd/Ts;
+  //pid_inner->A1=-pid_inner->Kp-2.0f*pid_inner->Kd/Ts;
+  //pid_inner->A2=pid_inner->Kd/Ts;
 
   outer_upper_limit=BUCK_CV_upper_limit;
   outer_lower_limit=BUCK_CV_lower_limit;
 
-  arm_pid_init_f32(pid_outer,1);
-  arm_pid_init_f32(pid_inner,1);
+  arm_pid_init_f32(pid_outer,0);
+  arm_pid_init_f32(pid_inner,0);
 
   BUCK_CV_interface_head();
 }
@@ -303,6 +317,7 @@ void BOOST_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inn
   control_mode=BOOST_CV;
   phy_setpoint=0.0f;
   calc_setpoint=0;
+  phy_calc_conv=phy_calc_conv_voltage;
 
   pid_outer->Kp=0.0f;
   pid_outer->Ki=0.0f;
@@ -310,9 +325,9 @@ void BOOST_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inn
   pid_outer->state[0]=0.0f;
   pid_outer->state[1]=0.0f;
   pid_outer->state[2]=0.0f;
-  pid_outer->A0=pid_outer->Kp+pid_outer->Ki*Ts+pid_outer->Kd/Ts;
-  pid_outer->A1=-pid_outer->Kp-2.0f*pid_outer->Kd/Ts;
-  pid_outer->A2=pid_outer->Kd/Ts;
+  //pid_outer->A0=pid_outer->Kp+pid_outer->Ki*Ts+pid_outer->Kd/Ts;
+  //pid_outer->A1=-pid_outer->Kp-2.0f*pid_outer->Kd/Ts;
+  //pid_outer->A2=pid_outer->Kd/Ts;
 
   pid_inner->Kp=0.0f;
   pid_inner->Ki=0.0f;
@@ -320,15 +335,15 @@ void BOOST_CV_init(arm_pid_instance_f32 *pid_outer,arm_pid_instance_f32 *pid_inn
   pid_inner->state[0]=0.0f;
   pid_inner->state[1]=0.0f;
   pid_inner->state[2]=0.0f;
-  pid_inner->A0=pid_inner->Kp+pid_inner->Ki*Ts+pid_inner->Kd/Ts;
-  pid_inner->A1=-pid_inner->Kp-2.0f*pid_inner->Kd/Ts;
-  pid_inner->A2=pid_inner->Kd/Ts;
+  //pid_inner->A0=pid_inner->Kp+pid_inner->Ki*Ts+pid_inner->Kd/Ts;
+  //pid_inner->A1=-pid_inner->Kp-2.0f*pid_inner->Kd/Ts;
+  //pid_inner->A2=pid_inner->Kd/Ts;
 
   outer_upper_limit=BOOST_CV_upper_limit;
   outer_lower_limit=BOOST_CV_lower_limit;
 
-  arm_pid_init_f32(pid_outer,1);
-  arm_pid_init_f32(pid_inner,1);
+  arm_pid_init_f32(pid_outer,0);
+  arm_pid_init_f32(pid_inner,0);
 
   BOOST_CV_interface_head();
 }
@@ -340,7 +355,7 @@ void software_start(void) {
   {
     ACMP1_T.CompareValue=i;
     HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, HRTIM_COMPAREUNIT_1, &ACMP1_T);
-    HAL_Delay(1);
+    HAL_Delay(2);
   }
 }
 
@@ -423,11 +438,133 @@ void HAL_HRTIM_RegistersUpdateCallback(HRTIM_HandleTypeDef *hhrtim,uint32_t Time
             ACMP1_T.CompareValue=out;
             HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, HRTIM_COMPAREUNIT_1, &ACMP1_T);
             break;
+          default:
+            break;
         }
       }
 
     }
 
+}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+  if (GPIO_Pin==EXTI7_Pin) {
+    control_mode=(control_mode+1)%4;
+    switch (control_mode) {
+      case BOOST_CV:
+        BOOST_CV_init(&pid_outer, &pid_inner);
+        break;
+      case BUCK_CC:
+        BUCK_CC_init(&pid_outer, &pid_inner);
+        break;
+      case BUCK_CV:
+        BUCK_CV_init(&pid_outer, &pid_inner);
+        break;
+      default:
+        break;
+    }
+  }
+  if (GPIO_Pin==EXTI9_Pin)
+  {
+
+  }
+  if (GPIO_Pin==EC_S_Pin)
+  {
+    now_EC_DeBug=(now_EC_DeBug+1)%7;
+  }
+  if (GPIO_Pin==EC11A_Pin)
+  {
+    if (HAL_GPIO_ReadPin(EC11A_GPIO_Port,EC11A_Pin)==0) {
+      if (HAL_GPIO_ReadPin(EC11B_GPIO_Port,EC11B_Pin)==0) {
+        switch (now_EC_DeBug) {
+          case _phy_setpoint:
+            if (phy_setpoint<outer_upper_limit) {
+              phy_setpoint+=0.01f;
+              calc_setpoint=phy_setpoint/phy_calc_conv;
+            }
+            break;
+          case _OKp:
+            pid_outer.Kp+=0.1f;
+            pid_outer.A0=pid_outer.Kp+pid_outer.Ki+pid_outer.Kd;
+            pid_outer.A1=-pid_outer.Kp-2.0f*pid_outer.Kd;
+            break;
+          case _OKi:
+            pid_outer.Ki+=0.1f;
+            pid_outer.A0=pid_outer.Kp+pid_outer.Ki+pid_outer.Kd;
+            break;
+          case _OKd:
+            pid_outer.Kd+=0.1f;
+            pid_outer.A0=pid_outer.Kp+pid_outer.Ki+pid_outer.Kd;
+            pid_outer.A1=-pid_outer.Kp-2.0f*pid_outer.Kd;
+            pid_outer.A2=pid_outer.Kd;
+            break;
+          case _IKp:
+            pid_inner.Kp+=0.1f;
+            pid_inner.A0=pid_inner.Kp+pid_inner.Ki+pid_inner.Kd;
+            pid_inner.A1=-pid_inner.Kp-2.0f*pid_inner.Kd;
+            break;
+          case _IKi:
+            pid_inner.Ki+=0.1f;
+            pid_inner.A0=pid_inner.Kp+pid_inner.Ki+pid_inner.Kd;
+            break;
+          case _IKd:
+            pid_inner.Kd+=0.1f;
+            pid_inner.A0=pid_inner.Kp+pid_inner.Ki+pid_inner.Kd;
+            pid_inner.A1=-pid_inner.Kp-2.0f*pid_inner.Kd;
+            pid_inner.A2=pid_inner.Kd;
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
+  if (GPIO_Pin==EC11B_Pin)
+  {
+    if (HAL_GPIO_ReadPin(EC11B_GPIO_Port,EC11B_Pin)==0) {
+      if (HAL_GPIO_ReadPin(EC11A_GPIO_Port,EC11A_Pin)==0) {
+        switch (now_EC_DeBug) {
+          case _phy_setpoint:
+            if (phy_setpoint>outer_lower_limit) {
+              phy_setpoint-=0.01f;
+              calc_setpoint=phy_setpoint/phy_calc_conv;
+            }
+            break;
+          case _OKp:
+            pid_outer.Kp-=0.1f;
+            pid_outer.A0=pid_outer.Kp+pid_outer.Ki+pid_outer.Kd;
+            pid_outer.A1=-pid_outer.Kp-2.0f*pid_outer.Kd;
+            break;
+          case _OKi:
+            pid_outer.Ki-=0.1f;
+            pid_outer.A0=pid_outer.Kp+pid_outer.Ki+pid_outer.Kd;
+            break;
+          case _OKd:
+            pid_outer.Kd-=0.1f;
+            pid_outer.A0=pid_outer.Kp+pid_outer.Ki+pid_outer.Kd;
+            pid_outer.A1=-pid_outer.Kp-2.0f*pid_outer.Kd;
+            pid_outer.A2=pid_outer.Kd;
+            break;
+          case _IKp:
+            pid_inner.Kp-=0.1f;
+            pid_inner.A0=pid_inner.Kp+pid_inner.Ki+pid_inner.Kd;
+            pid_inner.A1=-pid_inner.Kp-2.0f*pid_inner.Kd;
+            break;
+          case _IKi:
+            pid_inner.Ki-=0.1f;
+            pid_inner.A0=pid_inner.Kp+pid_inner.Ki+pid_inner.Kd;
+            break;
+          case _IKd:
+            pid_inner.Kd-=0.1f;
+            pid_inner.A0=pid_inner.Kp+pid_inner.Ki+pid_inner.Kd;
+            pid_inner.A1=-pid_inner.Kp-2.0f*pid_inner.Kd;
+            pid_inner.A2=pid_inner.Kd;
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
 }
 /* USER CODE END 4 */
 

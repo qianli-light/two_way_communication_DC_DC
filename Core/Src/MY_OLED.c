@@ -78,6 +78,7 @@ void DeBug_interface_head(void) {
     OLED_ShowString(64,40,"IKi:",OLED_6X8);
     OLED_ShowString(0,48,"OKd:",OLED_6X8);
     OLED_ShowString(64,48,"IKd:",OLED_6X8);
+    OLED_ShowString(0,56,"EC_DeBug:",OLED_6X8);
 
     OLED_Update();
 }
@@ -91,4 +92,32 @@ void DeBug_interface_main(void) {
 
     OLED_Update();
 }
+void now_EC_DeBug_interface_main(void) {
 
+    switch (now_EC_DeBug) {
+        case _phy_setpoint:
+            OLED_ShowString(54,56,"phy_setpoint",OLED_6X8);
+            break;
+        case _OKp:
+            OLED_ShowString(54,56,"OKp",OLED_6X8);
+            break;
+        case _OKi:
+            OLED_ShowString(54,56,"OKi",OLED_6X8);
+            break;
+        case _OKd:
+            OLED_ShowString(54,56,"OKd",OLED_6X8);
+            break;
+        case _IKp:
+            OLED_ShowString(54,56,"IKp",OLED_6X8);
+            break;
+        case _IKi:
+            OLED_ShowString(54,56,"IKi",OLED_6X8);
+            break;
+        case _IKd:
+            OLED_ShowString(54,56,"IKd",OLED_6X8);
+            break;
+        default:
+            break;
+    }
+    OLED_Update();
+}
